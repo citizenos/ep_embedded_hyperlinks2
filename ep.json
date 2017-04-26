@@ -1,12 +1,15 @@
 {
     "parts": [
         {
-            "name": "PLUGINNAME",
-            "hooks": {
-                "HOOKNAME" : "ep_FOLDERNAME/index:FUNCTIONNAME1"
-            },
+            "name": "main",
             "client_hooks": {
-                "CLIENT_HOOKNAME" : "ep_FOLDERNAME/static/js/index:FUNCTIONNAME1"
+                "postAceInit" : "ep_embedded_hyperlinks/static/js/index",
+                "aceCreateDomLine" : "ep_embedded_hyperlinks/static/js/index",
+                "aceInitialized" : "ep_embedded_hyperlinks/static/js/index",
+                "aceEditorCSS" : "ep_embedded_hyperlinks/static/js/index"
+            },
+            "hooks": {
+
             }
         }
     ]
