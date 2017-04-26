@@ -9,7 +9,7 @@
                 "aceEditorCSS" : "ep_embedded_hyperlinks/static/js/index"
             },
             "hooks": {
-
+                "eejsBlock_editbarMenuLeft" : "ep_embedded_hyperlinks/index"
             }
         }
     ]
