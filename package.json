@@ -1,9 +1,13 @@
 {
 	"name": "ep_embedded_hyperlinks",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"author": "@inicio Royal Feline",
 	"contributors": [],
 	"dependencies": {},
-	"engines": { "node": "*"}
+	"engines": { "node": "*"},
+	"repository" :
+		{ "type" : "git", 
+		"url" : "https://github.com/inicio/ep_embedded_hyperlinks.git"
+		}
 }
