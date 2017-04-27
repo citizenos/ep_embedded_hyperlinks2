@@ -6,14 +6,14 @@ var cssFiles = ["ep_embedded_hyperlinks/static/css/styles.css"];
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
     /* Event: User creates new hyperlink */
-    $('.hyperlink-save').click(function() {
+    $('.hyperlink-save').on('click',function() {
         var url = $('.hyperlink-url');
         context.ace.callWithAce(function(ace) {
-            ace.ace_doInsertLink(url,title);
+            ace.ace_doInsertLink(url,"");
         }, 'insertLink',true);
     });
     /* Event: User clicks editbar button */
-    $('.hyperlink-icon').click(function() {
+    $('.hyperlink-icon').on('click',function() {
         $('#hyperlink-dialog').toggle();
     });
 }
