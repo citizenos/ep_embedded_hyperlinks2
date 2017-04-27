@@ -11,25 +11,29 @@ exports.postAceInit = function(hook, context) {
     });
     /* Event: User creates new hyperlink */
     $('.hyperlink-save').on('click',function() {
-        var url = $('.hyperlink-url').attr('value');
+        var url = $('.hyperlink-url').val();
         context.ace.callWithAce(function(ace) {
-            console.log(url);
-            ace.ace_doInsertLink(url,"");
-        }, 'insertLink',true);
+            ace.ace_doInsertLink(url);
+        }, 'insertLink', true);
+        $('.hyperlink-url').val('');
     });
 }
 
 exports.aceAttribsToClasses = function(hook, context) {
-  if(context.key == 'url'){
-    var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(context.key);
-    return ['url:' + url ];
-  }
+    console.log("aceAttribsToClasses");
+    console.log(context);
+    if(context.key == 'url'){
+        var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(context.key);
+        return ['url:' + url ];
+    }
 }
 
 /* Convert the classes into a tag */
 exports.aceCreateDomLine = function(name, context) {
+    console.log("aceCreateDomLine");
     var cls = context.cls;
     var domline = context.domline;
+    console.log(context);
     var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(cls);
     console.log(url);
     var modifier = {};
@@ -59,12 +63,34 @@ exports.aceEditorCSS = function() {
     return cssFiles;
 }
 
-function doInsertLink(url,title) {
+/* Event: Selecting Existing Link */
+exports.aceEditEvent = function(hook, call, cb) {
+    console.log('aceEditEvent');
+    var cs = call.callstack;
+
+    /* Disregard non-click events */
+    if(!(cs.type == 'handleClick') && !(cs.type == 'handleKeyEvent') && !(cs.docTextChanged)) {
+        return false;
+    }
+    if(cs.type == 'setBaseText' || cs.type == 'setup') return false;
+    
+    /* Find the selection's existing value */
+    setTimeout(function() {
+        /* Clear Value */       
+        $('.hypelink-url').val('');
+        console.log(call.editorInfo.ace_getAttributeOnSelection('url'));
+    },250);
+
+}
+
+function doInsertLink(url) {
+    console.log("doInsertLink");
     var rep = this.rep,
         documentAttributeManager = this.documentAttributeManager;
     if(!(rep.selStart && rep.selEnd)) {
         return;
     }
     var url = ["url",url];
+    console.log(url);
     documentAttributeManager.setAttributesOnRange(rep.selStart, rep.selEnd, [url]);
 }
