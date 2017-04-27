@@ -5,24 +5,33 @@ var cssFiles = ["ep_embedded_hyperlinks/static/css/styles.css"];
 
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
+    /* Event: User clicks editbar button */
+    $('.hyperlink-icon').on('click',function() {
+        $('.hyperlink-dialog').toggle();
+    });
     /* Event: User creates new hyperlink */
     $('.hyperlink-save').on('click',function() {
-        var url = $('.hyperlink-url');
+        var url = $('.hyperlink-url').attr('value');
         context.ace.callWithAce(function(ace) {
+            console.log(url);
             ace.ace_doInsertLink(url,"");
         }, 'insertLink',true);
     });
-    /* Event: User clicks editbar button */
-    $('.hyperlink-icon').on('click',function() {
-        $('#hyperlink-dialog').toggle();
-    });
+}
+
+exports.aceAttribsToClasses = function(hook, context) {
+  if(context.key == 'url'){
+    var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(context.key);
+    return ['url:' + url ];
+  }
 }
 
 /* Convert the classes into a tag */
 exports.aceCreateDomLine = function(name, context) {
     var cls = context.cls;
     var domline = context.domline;
-    var url = /(?:^| )url:([A-Za-z0-9./:$#&]*)/.exec(cls);
+    var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(cls);
+    console.log(url);
     var modifier = {};
     if(url) {
         modifier = {
