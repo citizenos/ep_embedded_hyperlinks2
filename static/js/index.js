@@ -21,9 +21,11 @@ exports.postAceInit = function(hook, context) {
 
 exports.aceAttribsToClasses = function(hook, context) {
     console.log("aceAttribsToClasses");
-    console.log(context);
+    console.log(context,hook);
     if(context.key == 'url'){
-        var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(context.key);
+        //var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(context.value);
+        // We could validate the URL here
+        var url = context.value;
         return ['url:' + url ];
     }
 }
@@ -33,11 +35,10 @@ exports.aceCreateDomLine = function(name, context) {
     console.log("aceCreateDomLine");
     var cls = context.cls;
     var domline = context.domline;
-    console.log(context);
     var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(cls);
-    console.log(url);
     var modifier = {};
-    if(url) {
+    if(url != null) {
+        url = url.substr(4,url.length);
         modifier = {
             extraOpenTags: '<a href="' + url + '">',
             extraCloseTags: '</a>',
@@ -50,6 +51,7 @@ exports.aceCreateDomLine = function(name, context) {
             cls: ''
         }
     }
+    console.log(modifier);
     return [modifier];
 }
 
