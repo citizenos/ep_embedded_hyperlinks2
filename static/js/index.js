@@ -3,6 +3,7 @@ var $ = require('ep_etherpad-lite/static/js/rjquery').$;
 var _ = require('ep_etherpad-lite/static/js/underscore');
 var cssFiles = ["ep_embedded_hyperlinks/static/css/styles.css"];
 
+var tags = ['a'];
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
     /* Event: User clicks editbar button */
@@ -20,29 +21,30 @@ exports.postAceInit = function(hook, context) {
 }
 
 exports.aceAttribsToClasses = function(hook, context) {
-    console.log("aceAttribsToClasses");
-    console.log(context,hook);
     if(context.key == 'url'){
-        //var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(context.value);
-        // We could validate the URL here
         var url = context.value;
-        return ['url:' + url ];
+        return ['url-' + url ];
     }
 }
 
 /* Convert the classes into a tag */
 exports.aceCreateDomLine = function(name, context) {
-    console.log("aceCreateDomLine");
     var cls = context.cls;
     var domline = context.domline;
-    var url = /(?:^| )url:([A-Za-z0-9./:$#?=&]*)/.exec(cls);
+    var url = /(?:^| )url-(\S*)/.exec(cls);
     var modifier = {};
     if(url != null) {
-        url = url.substr(4,url.length);
+        url = url[1];
+
+        if(!(/^http:\/\//.test(url)) || 
+            !(/^https:\/\//.test(url))) {
+                url = "http://" + url;
+            }
+
         modifier = {
             extraOpenTags: '<a href="' + url + '">',
             extraCloseTags: '</a>',
-            cls: ''
+            cls: cls
         }
     } else {
         modifier = {
@@ -65,34 +67,12 @@ exports.aceEditorCSS = function() {
     return cssFiles;
 }
 
-/* Event: Selecting Existing Link */
-exports.aceEditEvent = function(hook, call, cb) {
-    console.log('aceEditEvent');
-    var cs = call.callstack;
-
-    /* Disregard non-click events */
-    if(!(cs.type == 'handleClick') && !(cs.type == 'handleKeyEvent') && !(cs.docTextChanged)) {
-        return false;
-    }
-    if(cs.type == 'setBaseText' || cs.type == 'setup') return false;
-    
-    /* Find the selection's existing value */
-    setTimeout(function() {
-        /* Clear Value */       
-        $('.hypelink-url').val('');
-        console.log(call.editorInfo.ace_getAttributeOnSelection('url'));
-    },250);
-
-}
-
 function doInsertLink(url) {
-    console.log("doInsertLink");
     var rep = this.rep,
         documentAttributeManager = this.documentAttributeManager;
     if(!(rep.selStart && rep.selEnd)) {
         return;
     }
     var url = ["url",url];
-    console.log(url);
     documentAttributeManager.setAttributesOnRange(rep.selStart, rep.selEnd, [url]);
 }
