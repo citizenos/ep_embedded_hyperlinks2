@@ -9,6 +9,7 @@ exports.postAceInit = function(hook, context) {
     /* Event: User clicks editbar button */
     $('.hyperlink-icon').on('click',function() {
         $('.hyperlink-dialog').toggle();
+        $('.hyperlink-dialog').appendTo('body').css({'top': $('.hyperlink-icon').offset().top + 42, 'left': $('.hyperlink-icon').offset().left - 12});
     });
     /* Event: User creates new hyperlink */
     $('.hyperlink-save').on('click',function() {
@@ -17,6 +18,15 @@ exports.postAceInit = function(hook, context) {
             ace.ace_doInsertLink(url);
         }, 'insertLink', true);
         $('.hyperlink-url').val('');
+        $('.hyperlink-dialog').hide();
+    });
+    /* User press Enter on url input */
+    $('.hyperlink-url').on("keyup", function(e)
+    {
+        if(e.keyCode == 13) // ENTER key
+        { 
+          $('.hyperlink-save').click();
+        }
     });
 }
 
@@ -46,15 +56,9 @@ exports.aceCreateDomLine = function(name, context) {
             extraCloseTags: '</a>',
             cls: cls
         }
-    } else {
-        modifier = {
-            extraOpenTags: '',
-            extraCloseTags: '',
-            cls: ''
-        }
+        return modifier;
     }
-    console.log(modifier);
-    return [modifier];
+    return [];
 }
 
 /* I don't know what this does */

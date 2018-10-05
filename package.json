@@ -1,13 +1,13 @@
 {
-	"name": "ep_embedded_hyperlinks",
-	"version": "1.0.4",
-	"description": "",
-	"author": "@inicio Royal Feline",
+	"name": "ep_embedded_hyperlinks2",
+	"version": "1.1.0",
+	"description": "Adds hyperlinks to etherpad. Now compatible with all other plugins",
+	"author": "@inicio Royal Feline, @seballot",
 	"contributors": [],
 	"dependencies": {},
 	"engines": { "node": "*"},
 	"repository" :
 		{ "type" : "git", 
-		"url" : "https://github.com/inicio/ep_embedded_hyperlinks.git"
+		"url" : "https://github.com/sebballot/ep_embedded_hyperlinks.git"
 		}
 }
