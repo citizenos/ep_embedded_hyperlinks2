@@ -1,7 +1,7 @@
 var _, $, jQuery;
 var $ = require('ep_etherpad-lite/static/js/rjquery').$;
 var _ = require('ep_etherpad-lite/static/js/underscore');
-var cssFiles = ["ep_embedded_hyperlinks/static/css/styles.css"];
+var cssFiles = ["ep_embedded_hyperlinks2/static/css/styles.css"];
 
 var tags = ['a'];
 /* Bind the event handler to the toolbar buttons */
