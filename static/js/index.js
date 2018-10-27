@@ -46,10 +46,9 @@ exports.aceCreateDomLine = function(name, context) {
     if(url != null) {
         url = url[1];
 
-        if(!(/^http:\/\//.test(url)) || 
-            !(/^https:\/\//.test(url))) {
-                url = "http://" + url;
-            }
+        if(!(/^http:\/\//.test(url)) && !(/^https:\/\//.test(url))) {
+            url = "http://" + url;
+        }
 
         modifier = {
             extraOpenTags: '<a href="' + url + '">',
