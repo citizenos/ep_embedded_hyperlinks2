@@ -3,7 +3,6 @@ var $ = require('ep_etherpad-lite/static/js/rjquery').$;
 var _ = require('ep_etherpad-lite/static/js/underscore');
 var cssFiles = ["ep_embedded_hyperlinks2/static/css/styles.css"];
 
-var tags = ['a'];
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
     /* Event: User clicks editbar button */
@@ -78,4 +77,11 @@ function doInsertLink(url) {
     }
     var url = ["url",url];
     documentAttributeManager.setAttributesOnRange(rep.selStart, rep.selEnd, [url]);
+}
+
+exports.collectContentPre = function(hook,context) {
+    var url = /(?:^| )url-(\S*)/.exec(context.cls);
+    if(url) {
+        context.cc.doAttrib(context.state,"url::" + url);
+    }
 }
