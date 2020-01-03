@@ -8,6 +8,6 @@
 	"engines": { "node": "*"},
 	"repository" :
 		{ "type" : "git",
-		"url" : "https://github.com/sebballot/ep_embedded_hyperlinks2.git"
+		"url" : "https://github.com/seballot/ep_embedded_hyperlinks2.git"
 		}
 }
