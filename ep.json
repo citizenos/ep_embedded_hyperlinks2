@@ -11,8 +11,7 @@
                 "collectContentPre" : "ep_embedded_hyperlinks2/static/js/index"
             },
             "hooks": {
-                "eejsBlock_editbarMenuLeft" : "ep_embedded_hyperlinks2/index",
-                "collectContentPre" : "ep_embedded_hyperlinks2/static/js/index",
+                "eejsBlock_editbarMenuLeft" : "ep_embedded_hyperlinks2/index"
             }
         }
     ]
