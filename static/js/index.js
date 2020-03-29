@@ -1,14 +1,16 @@
 var _, $, jQuery;
 var $ = require('ep_etherpad-lite/static/js/rjquery').$;
 var _ = require('ep_etherpad-lite/static/js/underscore');
-var cssFiles = ["ep_embedded_hyperlinks2/static/css/styles.css"];
 
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
+    if ($('#editorcontainerbox').css('display') != 'flex') {
+        console.error("Ep_embed_hyperlink2: Please upgrade to etherpad 1.9 for this plugin to work correctly")
+    }
     /* Event: User clicks editbar button */
     $('.hyperlink-icon').on('click',function() {
         $('.hyperlink-dialog').toggle();
-        $('.hyperlink-dialog').appendTo('body').css({'top': $('.hyperlink-icon').offset().top + 42, 'left': $('.hyperlink-icon').offset().left - 12});
+        $('.hyperlink-dialog').css('left', $('.hyperlink-icon').offset().left - 12);
     });
     /* Event: User creates new hyperlink */
     $('.hyperlink-save').on('click',function() {
@@ -63,10 +65,6 @@ exports.aceCreateDomLine = function(name, context) {
 exports.aceInitialized = function(hook, context) {
     var editorInfo = context.editorInfo;
     editorInfo.ace_doInsertLink = _(doInsertLink).bind(context);
-}
-
-exports.aceEditorCSS = function() {
-    return cssFiles;
 }
 
 function doInsertLink(url) {
