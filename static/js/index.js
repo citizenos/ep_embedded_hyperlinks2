@@ -4,12 +4,17 @@ var _ = require('ep_etherpad-lite/static/js/underscore');
 
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
-    if ($('#editorcontainerbox').css('display') != 'flex') {
-        console.error("Ep_embed_hyperlink2: Please upgrade to etherpad 1.9 for this plugin to work correctly")
+    if (!$('#editorcontainerbox').hasClass('flex-layout')) {
+        $.gritter.add({
+            title: "Error",
+            text: "Ep_embed_hyperlink2: Please upgrade to etherpad 1.9 for this plugin to work correctly",
+            sticky: true,
+            class_name: "error"
+        })
     }
     /* Event: User clicks editbar button */
     $('.hyperlink-icon').on('click',function() {
-        $('.hyperlink-dialog').toggle();
+        $('.hyperlink-dialog').toggleClass('popup-show');
         $('.hyperlink-dialog').css('left', $('.hyperlink-icon').offset().left - 12);
     });
     /* Event: User creates new hyperlink */
@@ -19,7 +24,7 @@ exports.postAceInit = function(hook, context) {
             ace.ace_doInsertLink(url);
         }, 'insertLink', true);
         $('.hyperlink-url').val('');
-        $('.hyperlink-dialog').hide();
+        $('.hyperlink-dialog').removeClass('popup-show');
     });
     /* User press Enter on url input */
     $('.hyperlink-url').on("keyup", function(e)
