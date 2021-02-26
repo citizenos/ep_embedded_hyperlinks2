@@ -1,6 +1,4 @@
-var _, $, jQuery;
 var $ = require('ep_etherpad-lite/static/js/rjquery').$;
-var _ = require('ep_etherpad-lite/static/js/underscore');
 
 /* Bind the event handler to the toolbar buttons */
 exports.postAceInit = function(hook, context) {
@@ -69,7 +67,7 @@ exports.aceCreateDomLine = function(name, context) {
 /* I don't know what this does */
 exports.aceInitialized = function(hook, context) {
     var editorInfo = context.editorInfo;
-    editorInfo.ace_doInsertLink = _(doInsertLink).bind(context);
+    editorInfo.ace_doInsertLink = doInsertLink.bind(context);
 }
 
 function doInsertLink(url) {
