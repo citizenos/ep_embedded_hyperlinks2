@@ -35,9 +35,12 @@ exports.postAceInit = function(hook, context) {
 }
 
 exports.aceAttribsToClasses = function(hook, context) {
-    if(context.key == 'url'){
-        var url = context.value;
-        return ['url-' + url ];
+    if (context.key === 'url'){
+      if (/^ ?url-/.test(context.value)) {
+        return [context.value];
+      } else {
+        return ['url-' + context.value];
+      }
     }
 }
 
@@ -83,6 +86,6 @@ function doInsertLink(url) {
 exports.collectContentPre = function(hook,context) {
     var url = /(?:^| )url-(\S*)/.exec(context.cls);
     if(url) {
-        context.cc.doAttrib(context.state,"url::" + url);
+        context.cc.doAttrib(context.state,"url::" + url[0]);
     }
 }

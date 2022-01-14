@@ -156,4 +156,32 @@ describe('ep_embedded_hyperlinks2', function () {
         secondSpan.classList.contains('b');
     });
   });
+
+  it('has correct links after copy and paste', async function() {
+   // FIXME use clipboard API
+   const html = '<span class="url-beta.etherpad.com/"><a href="http://beta.etherpad.com/">1link, </a></span>\
+<span class="b url-beta.etherpad.com/"><a href="http://beta.etherpad.com/"><b>2bold</b></a></span>\
+<span class="url-beta.etherpad.com/"><a href="http://beta.etherpad.com/">, 3link</a></span>'
+   helper.linesDiv()[0].html(html);
+   await helper.waitForPromise(() => helper.commits.length === 1);
+
+   await helper.waitForPromise(() => {
+     const lineText = helper.textLines()[0];
+     const firstSpan = helper.linesDiv()[0][0].children[0];
+     const secondSpan = helper.linesDiv()[0][0].children[1];
+     const thirdSpan = helper.linesDiv()[0][0].children[2];
+
+     return lineText === '1link, 2bold, 3link' &&
+       firstSpan.children[0].getAttribute('href') === 'http://beta.etherpad.com/' &&
+       secondSpan.children[0].getAttribute('href') === 'http://beta.etherpad.com/' &&
+       thirdSpan.children[0].getAttribute('href') === 'http://beta.etherpad.com/' &&
+       firstSpan.classList.contains('url-beta.etherpad.com/') &&
+       !firstSpan.classList.contains('url-') &&
+       secondSpan.classList.contains('url-beta.etherpad.com/') &&
+       !secondSpan.classList.contains('url-') &&
+       thirdSpan.classList.contains('url-beta.etherpad.com/') &&
+       !thirdSpan.classList.contains('url-') &&
+       secondSpan.classList.contains('b');
+   });
+ });
 });
