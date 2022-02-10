@@ -11,7 +11,8 @@
             },
             "hooks": {
                 "eejsBlock_editbarMenuLeft" : "ep_embedded_hyperlinks2/index",
-                "eejsBlock_editorContainerBox": "ep_embedded_hyperlinks2/index"
+                "eejsBlock_editorContainerBox": "ep_embedded_hyperlinks2/index",
+                "getLineHTMLForExport": "ep_embedded_hyperlinks2/exportHTML"
             }
         }
     ]
