@@ -4,7 +4,9 @@
 	"description": "Adds hyperlinks to etherpad",
 	"author": "@inicio Royal Feline, @seballot",
 	"contributors": [],
-	"dependencies": {},
+	"dependencies": {
+	    "jsdom": "^19.0.0"
+	  },
 	"engines": { "node": "*"},
 	"repository" :
 		{ "type" : "git",

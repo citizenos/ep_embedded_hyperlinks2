@@ -1,11 +1,26 @@
 <div class="popup acl-write hyperlink-dialog popup toolbar-popup">
   <div class="hyperlink-container popup-content">
-    <input type="text" class="hyperlink-url" placeholder="http://..."/>
-    <button type="button" class="btn btn-primary hyperlink-save" data-l10n-id="ep_embedded_hyperlinks.popup.ok">Ok</button>
+    <div>
+      <div>
+        <label>Link text</label>
+        <input type="text" class="input hyperlink-text"/>
+      </div>
+      <div>
+        <label>Link address</label>
+        <input type="text" class="input hyperlink-url" placeholder="http://..."/>
+      </div>
+      <button type="button" class="btn btn-primary hyperlink-save" data-l10n-id="ep_embedded_hyperlinks.popup.ok">Ok</button>
+      <button type="button" class="btn btn-primary hyperlink-remove" data-l10n-id="ep_embedded_hyperlinks.popup.ok">Remove link</button>
+    </div>
   </div>
 </div>
 
 <style>
+  .input {
+    display: inline-block;
+    clear: both;
+    width: 100%;
+  }
   .hyperlink-dialog {
     max-width: 300px;
   }
