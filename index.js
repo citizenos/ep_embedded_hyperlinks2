@@ -32,7 +32,7 @@ exports.getLineHTMLForExport = async (hookName, context) => {
               const nodeHTML = node.outerHTML.trim();
 
               const replaceHTML = (nodeHTML.substring(0, nodeHTML.length-5) + 'a>').replace('<span data-url', '<a href');
-              context.lineContent = context.lineContent.replace(nodeHTML, replaceHTML);
+              context.lineContent = JSDOM.fragment(`<div>${context.lineContent}</div>`).firstChild.innerHTML.replace(nodeHTML, replaceHTML);
           }
       }
     }
