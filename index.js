@@ -1,4 +1,4 @@
-var eejs = require('ep_etherpad-lite/node/eejs/');
+const eejs = require('ep_etherpad-lite/node/eejs/');
 const {JSDOM} = require('jsdom');
 
 exports.eejsBlock_editbarMenuLeft = function(hook_name, args, cb) {
@@ -22,17 +22,28 @@ exports.exportHtmlAdditionalTagsWithData = async (hookName, pad) => {
 
 exports.getLineHTMLForExport = async (hookName, context) => {
   const elem = JSDOM.fragment(context.lineContent);
-  elem.childNodes.forEach(function (node) {
+  const parseNode = async function (node) {
     const attrs = node.attributes;
+
     if (attrs){
       for(let i = 0; i < attrs.length; i++) {
           const attr = attrs[i];
           if (attr.name === 'data-url') {
-              const nodeHTML = node.outerHTML;
+              const nodeHTML = node.outerHTML.trim();
+
               const replaceHTML = (nodeHTML.substring(0, nodeHTML.length-5) + 'a>').replace('<span data-url', '<a href');
-              context.lineContent = context.lineContent.replace(nodeHTML, replaceHTML)
+              context.lineContent = context.lineContent.replace(nodeHTML, replaceHTML);
           }
       }
     }
-  });
+
+    if (node.childNodes) {
+      node.childNodes.forEach(async function (child) {
+        await parseNode(child)
+      });
+    }
+  }
+
+  await parseNode(elem);
+  console.log(context.lineContent)
 };

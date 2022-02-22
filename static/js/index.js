@@ -1,18 +1,18 @@
-var $ = require('ep_etherpad-lite/static/js/rjquery').$;
+const $ = require('ep_etherpad-lite/static/js/rjquery').$;
 
-var showDialog = function () {
+const showDialog = function () {
     $('.hyperlink-dialog').addClass('popup-show');
-    $('.hyperlink-dialog').css('left', $('.hyperlink-icon').offset().left - 12);
+//    $('.hyperlink-dialog').css('left', $('.hyperlink-icon').offset().left - 12);
 }
 
-var addLinkListeners = function () {
+let addLinkListeners = function () {
     const padOuter = $('iframe[name="ace_outer"]').contents();
     const padInner = padOuter.find('iframe[name="ace_inner"]');
     const editorInfo = this.editorInfo;
     padInner.contents().find('a').off();
     padInner.contents().find('a').click(function(e) {
         let range = new Range();
-        var selection= padInner.contents()[0].getSelection();
+        const selection= padInner.contents()[0].getSelection();
         range.selectNodeContents($(this)[0]);
         selection.removeAllRanges();
         selection.addRange(range);
@@ -26,8 +26,6 @@ var addLinkListeners = function () {
     });
 }
 exports.postAceInit = function(hook, context) {
-
-
     if (!$('#editorcontainerbox').hasClass('flex-layout')) {
         $.gritter.add({
             title: "Error",
@@ -43,15 +41,15 @@ exports.postAceInit = function(hook, context) {
 
         const padOuter = $('iframe[name="ace_outer"]').contents();
         const padInner = padOuter.find('iframe[name="ace_inner"]').contents()[0];
-        var selection= padInner.getSelection();
+        const selection= padInner.getSelection();
         $('.hyperlink-text').val(selection.toString());
         showDialog();
     });
 
     /* Event: User creates new hyperlink */
     $('.hyperlink-save').on('click',function() {
-        var url = $('.hyperlink-url').val();
-        var text = $('.hyperlink-text').val();
+        let url = $('.hyperlink-url').val();
+        const text = $('.hyperlink-text').val();
         if(!(/^http:\/\//.test(url)) && !(/^https:\/\//.test(url))) {
             url = "http://" + url;
         }
@@ -75,10 +73,12 @@ exports.postAceInit = function(hook, context) {
 
     $('.hyperlink-remove').on('click',function() {
         context.ace.callWithAce(function(ace) {
-            if(ace.ace_getAttributeOnSelection("url")){
-                ace.ace_setAttributeOnSelection("url", false);
-            }
+            ace.ace_setAttributeOnSelection("url", false);
         }, 'removeLink', true);
+        $('.hyperlink-text').val('');
+        $('.hyperlink-url').val('');
+        $('.hyperlink-dialog').removeClass('popup-show');
+        addLinkListeners();
     });
 
     /* User press Enter on url input */
@@ -93,33 +93,35 @@ exports.postAceInit = function(hook, context) {
 }
 
 exports.acePostWriteDomLineHTML = function (hook, context) {
-    addLinkListeners();
+    setTimeout(function () {
+        addLinkListeners();
+    });
 };
 
 exports.aceAttribsToClasses = function(hook, context) {
     if(context.key == 'url'){
-        var url = /(?:^| )url-(\S*)/.exec(context.value);
+        let url = /(?:^| )url-(\S*)/.exec(context.value);
         if (!url) {
             url = context.value;
         } else {
             url = url[1]
         }
-        console.log('aceAttribsToClasses', ['url', 'url-'+url ])
+
         return ['url', 'url-'+url ];
     }
 }
 
 /* Convert the classes into a tag */
 exports.aceCreateDomLine = function(name, context) {
-    var cls = context.cls;
-    var url = /(?:^| )url-(\S*)/.exec(cls);
-    var modifier = {};
+    const cls = context.cls;
+    let url = /(?:^| )url-(\S*)/.exec(cls);
+    let modifier = {};
     if(url != null) {
         url = url[1];
         if(!(/^http:\/\//.test(url)) && !(/^https:\/\//.test(url))) {
             url = "http://" + url;
         }
-        console.log(url);
+
         modifier = {
             extraOpenTags: '<a href="' + url + '">',
             extraCloseTags: '</a>',
@@ -138,7 +140,6 @@ exports.aceInitialized = function(hook, context) {
 exports.collectContentPre = function(hook,context) {
     const url = /(?:^| )url-(\S*)/.exec(context.cls);
     if(url) {
-        console.log('collectContentPre', url[1]);
         context.cc.doAttrib(context.state,"url::" + url[1]);
     }
 }
