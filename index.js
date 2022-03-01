@@ -17,7 +17,7 @@ exports.eejsBlock_body = (hook, args, cb) => {
 // Add the props to be supported in export
 exports.exportHtmlAdditionalTagsWithData = async (hook, pad) => {
   const ret = [];
-  pad.pool.eachAttrib((k, v) => {if (k === 'url') ret.push([k, v]);});
+  pad.pool.eachAttrib((k, v) => { if (k === 'url') ret.push([k, v]); });
   return ret;
 };
 
