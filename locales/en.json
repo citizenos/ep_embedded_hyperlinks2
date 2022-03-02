@@ -1,5 +1,5 @@
 {
-    "ep_embedded_hyperlinks.editbarButtons.hyperlink": "Hyperlink",
+    "ep_embedded_hyperlinks.editbarButtons.hyperlink.title": "Hyperlink",
     "ep_embedded_hyperlinks.popup.lable.link_text": "Link text",
     "ep_embedded_hyperlinks.popup.lable.link_address": "Link address",
     "ep_embedded_hyperlinks.popup.ok": "Ok",

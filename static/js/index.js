@@ -34,6 +34,21 @@ exports.aceSelectionChanged = (hook, context) => {
   }
 };
 
+exports.postToolbarInit = (hookName, args) => {
+  const editbar = args.toolbar;
+
+  editbar.registerCommand('addHyperlink', () => {
+    $('.hyperlink-text').val('');
+    $('.hyperlink-url').val('');
+
+    const padOuter = $('iframe[name="ace_outer"]').contents();
+    const padInner = padOuter.find('iframe[name="ace_inner"]').contents()[0];
+    const selection = padInner.getSelection();
+    $('.hyperlink-text').val(selection.toString());
+    showDialog();
+  });
+};
+
 exports.postAceInit = (hook, context) => {
   if (!$('#editorcontainerbox').hasClass('flex-layout')) {
     $.gritter.add({
