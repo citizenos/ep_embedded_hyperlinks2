@@ -5,12 +5,11 @@
 	"author": "@inicio Royal Feline, @seballot",
 	"contributors": [],
 	"dependencies": {
-		"jsdom": "^19.0.0"
+		"jsdom": "^22.1.0"
 	},
 	"devDependencies": {
-		"eslint": "^8.9.0",
-		"eslint-config-etherpad": "^3.0.1",
-		"typescript": "^4.5.5"
+		"eslint": "^8.51.0",
+		"eslint-config-etherpad": "^3.0.22"
 	},
 	"eslintConfig": {
 		"root": true,
@@ -21,7 +20,7 @@
 		"lint:fix": "eslint --fix ."
 	},
 	"engines": {
-		"node": ">=12.17.0"
+		"node": ">=16.4.0"
 	},
 	"repository": {
 		"type": "git",
