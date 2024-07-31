@@ -3,7 +3,7 @@
 	"version": "1.2.4",
 	"description": "Adds hyperlinks to etherpad",
 	"author": "@inicio Royal Feline, @seballot",
-	"contributors": [],
+	"contributors": ["ilmartyrk"],
 	"dependencies": {
 		"jsdom": "^22.1.0"
 	},
